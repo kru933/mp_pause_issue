@@ -1,0 +1,29 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ccdfudysfw41t"]
+
+[ext_resource type="Shader" uid="uid://c7oe1b80hkrth" path="res://art/shaders/sky_and_clouds/sky_and_clouds.gdshader" id="1_ot4rw"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_2tkfd"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_pch1o"]
+noise = SubResource("FastNoiseLite_2tkfd")
+seamless = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_h3q40"]
+frequency = 0.0068
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_srqmc"]
+noise = SubResource("FastNoiseLite_h3q40")
+seamless = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_ot4rw")
+shader_parameter/speed = 0.00200004759499994
+shader_parameter/noise1 = SubResource("NoiseTexture2D_pch1o")
+shader_parameter/noise2 = SubResource("NoiseTexture2D_srqmc")
+shader_parameter/color = Color(0.21176471, 0.7607843, 0.5764706, 1)
+shader_parameter/edge_color = Color(0.21176471, 0.7607843, 0.5764706, 1)
+shader_parameter/edge_scale = 0.25
+shader_parameter/near = 0.1
+shader_parameter/far = 100.0
+shader_parameter/seam_mask_height = Vector2(0.135, 1)

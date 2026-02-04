@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cwkcelqfii68l"]
+
+[ext_resource type="Shader" uid="uid://dc1g4uubmdrj2" path="res://art/shaders/underwater_fog/underwater_fog.gdshader" id="1_t8321"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_t8321")
+shader_parameter/water_radius = 101.63
+shader_parameter/fog_color = Color(0.012920001, 0.6080301, 0.7021107, 0.75000006)
+shader_parameter/wave_speed = 1.0
+shader_parameter/wave_amplitude = 0.5
+shader_parameter/wave_frequency = 0.6
+shader_parameter/cpu_time = 0.0

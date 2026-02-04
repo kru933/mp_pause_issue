@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://bdai8wmorwus8"]
+
+[ext_resource type="Script" uid="uid://dumlws1mjr8fb" path="res://assets/player/player.gd" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://p50x3cf1fh1h" path="res://assets/player/player_input.gd" id="3_v2miy"]
+[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="4_d5dr7"]
+[ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="5_toylo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
+radius = 0.25
+height = 1.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h6syq"]
+shading_mode = 0
+albedo_color = Color(1, 0, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_oul6g"]
+material = SubResource("StandardMaterial3D_h6syq")
+height = 1.8
+
+[node name="Player" type="CharacterBody3D" unique_id=1894612941 groups=["Player"]]
+collision_layer = 2
+collision_mask = 7
+floor_constant_speed = true
+floor_max_angle = 1.0471976
+script = ExtResource("1_oul6g")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=94820721]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6452577, 0)
+cull_mask = 1048573
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2129488034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91257024, 0)
+shape = SubResource("CapsuleShape3D_lquwl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=346908790]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91257024, 0)
+mesh = SubResource("CapsuleMesh_oul6g")
+
+[node name="RollbackSynchronizer" type="Node" parent="." unique_id=520637209 node_paths=PackedStringArray("root")]
+script = ExtResource("4_d5dr7")
+root = NodePath("..")
+state_properties = Array[String]([":transform", "Camera3D:transform"])
+full_state_interval = 1
+input_properties = Array[String](["PlayerInput:input_dir", "PlayerInput:look_angle", "PlayerInput:jump_pressed", "PlayerInput:run_pressed"])
+metadata/_custom_type_script = "uid://d350u8evihs1u"
+
+[node name="TickInterpolator" type="Node" parent="." unique_id=125828885 node_paths=PackedStringArray("root")]
+script = ExtResource("5_toylo")
+root = NodePath("..")
+properties = Array[String]([":transform", "Camera3D:transform"])
+metadata/_custom_type_script = "uid://dour8fehaaugp"
+
+[node name="PlayerInput" type="Node" parent="." unique_id=1269226287]
+script = ExtResource("3_v2miy")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1602984657]
+collision_layer = 32
+collision_mask = 32
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=623146977]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91257024, 0)
+shape = SubResource("CapsuleShape3D_lquwl")

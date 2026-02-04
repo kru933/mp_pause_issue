@@ -1,0 +1,44 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dlm0rmv6lisg0"]
+
+[ext_resource type="Shader" uid="uid://doe226x42mqls" path="res://art/shaders/splotchy_terrain/splotchy.gdshader" id="1_cqr37"]
+[ext_resource type="Texture2D" uid="uid://dn4hpg34eq154" path="res://art/textures/color_palette.png" id="2_rjw4r"]
+
+[sub_resource type="Gradient" id="Gradient_f4x6m"]
+offsets = PackedFloat32Array(0.5103245, 0.52507377)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_868bh"]
+noise_type = 0
+frequency = 0.0095
+fractal_type = 0
+fractal_octaves = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_nnsqj"]
+noise = SubResource("FastNoiseLite_868bh")
+color_ramp = SubResource("Gradient_f4x6m")
+seamless = true
+in_3d_space = true
+
+[sub_resource type="Gradient" id="Gradient_vveig"]
+offsets = PackedFloat32Array(0.5103245, 0.52507377)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gm5lc"]
+seed = 3
+frequency = 0.0035
+fractal_octaves = 3
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ef6fq"]
+noise = SubResource("FastNoiseLite_gm5lc")
+color_ramp = SubResource("Gradient_vveig")
+seamless = true
+in_3d_space = true
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_cqr37")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_rjw4r")
+shader_parameter/uv1_blend_sharpness = 1.0000000475
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/noise_1 = SubResource("NoiseTexture2D_nnsqj")
+shader_parameter/noise_2 = SubResource("NoiseTexture2D_ef6fq")
+shader_parameter/mixer_mult = 0.2

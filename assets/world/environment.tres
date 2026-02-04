@@ -1,0 +1,22 @@
+[gd_resource type="Environment" format=3 uid="uid://cwq54dbhfxpql"]
+
+[sub_resource type="Sky" id="Sky_bprmo"]
+
+[resource]
+background_mode = 1
+sky = SubResource("Sky_bprmo")
+ambient_light_source = 2
+ambient_light_color = Color(0.4045111, 0.40451115, 0.4045111, 1)
+glow_enabled = true
+glow_intensity = 1.0
+glow_blend_mode = 0
+glow_hdr_threshold = 0.5
+fog_light_color = Color(0.41000003, 0.92133343, 1, 1)
+fog_light_energy = 0.45
+fog_density = 0.05
+fog_sky_affect = 0.0
+volumetric_fog_density = 0.0
+volumetric_fog_albedo = Color(0.36, 0.93600005, 1, 1)
+volumetric_fog_emission = Color(0.36078432, 0.9372549, 1, 1)
+volumetric_fog_length = 10.0
+volumetric_fog_sky_affect = 0.115

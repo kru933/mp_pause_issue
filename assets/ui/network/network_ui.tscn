@@ -1,0 +1,43 @@
+[gd_scene format=3 uid="uid://7qwnuhhvq2c0"]
+
+[ext_resource type="Script" uid="uid://bkdheaoiy20y3" path="res://assets/ui/network/network_ui.gd" id="1_5tso1"]
+
+[node name="NetworkUI" type="Control" unique_id=1204281956]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5tso1")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=454645806]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.19434929, 0.19434926, 0.19434926, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=308083409]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Host" type="Button" parent="HBoxContainer" unique_id=1839304349]
+layout_mode = 2
+text = "Play as Host"
+
+[node name="Client" type="Button" parent="HBoxContainer" unique_id=407415013]
+layout_mode = 2
+text = "Play as Client"

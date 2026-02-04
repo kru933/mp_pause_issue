@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://kb3tph8kryrp"]
+
+[ext_resource type="Texture2D" uid="uid://dn4hpg34eq154" path="res://art/textures/color_palette.png" id="1_6xv82"]
+
+[resource]
+resource_name = "color_palette"
+shading_mode = 0
+albedo_texture = ExtResource("1_6xv82")
+texture_filter = 0
+disable_receive_shadows = true

@@ -31,7 +31,7 @@ spawn_container = NodePath("../NetworkSpawnContainer")
 transform = Transform3D(-0.093743294, 0, -0.9955964, 0, 1, 0, 0.9955964, 0, -0.093743294, -21.96302, 5.4174967, -107.231094)
 
 [node name="FarmPlayer2" type="Marker3D" parent="NetworkSpawner" unique_id=659013212]
-transform = Transform3D(-0.015829444, 0, 0.9998747, 0, 1, 0, -0.9998747, 0, -0.015829444, -19.601421, 5.4174967, -107.01855)
+transform = Transform3D(-0.015829444, 0, 0.9998747, 0, 1, 0, -0.9998747, 0, -0.015829444, -19.601, 5.417, -107.231)
 
 [node name="FarmBoat" type="Marker3D" parent="NetworkSpawner" unique_id=37571271]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20.90974, -1.3410025, -103.687454)

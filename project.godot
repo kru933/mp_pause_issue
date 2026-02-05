@@ -114,11 +114,7 @@ interact={
 
 [netfox]
 
-autoconnect/simulated_latency_ms=500
-autoconnect/simulated_packet_loss_chance=0.25
 rollback/history_limit=512
-rollback/display_offset=1
-rollback/input_delay=1
 
 [physics]
 

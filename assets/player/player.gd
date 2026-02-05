@@ -21,7 +21,13 @@ func _force_update_physics_transform():
 	PhysicsServer3D.body_set_state(get_rid(), PhysicsServer3D.BODY_STATE_TRANSFORM, transform)
 	PhysicsServer3D.body_set_mode(get_rid(), PhysicsServer3D.BODY_MODE_KINEMATIC)
 
-func _rollback_tick(delta: float, _tick: int, _is_fresh: bool) -> void:
+func round_to_dec(num, digit):
+	return round(num * pow(10.0, digit)) / pow(10.0, digit)
+
+func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
+	if multiplayer.is_server():
+		print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.z, boat.velocity.z])
+	
 	_force_update_is_on_floor()
 	
 	is_on_boat = $Area3D.has_overlapping_areas()
@@ -47,9 +53,9 @@ func _rollback_tick(delta: float, _tick: int, _is_fresh: bool) -> void:
 		curr_speed = RUN_SPEED
 	
 	# Get the input direction and handle the movement/deceleration.
-	var input_dir : Vector2 = player_input.input_dir
-	updated_velocity = update_velocity_in_basis(transform.basis.x.normalized(), input_dir.x * curr_speed, updated_velocity)
-	updated_velocity = update_velocity_in_basis(transform.basis.z.normalized(), input_dir.y * curr_speed, updated_velocity)
+	#var input_dir : Vector2 = player_input.input_dir
+	#updated_velocity = update_velocity_in_basis(transform.basis.x.normalized(), input_dir.x * curr_speed, updated_velocity)
+	#updated_velocity = update_velocity_in_basis(transform.basis.z.normalized(), input_dir.y * curr_speed, updated_velocity)
 	
 	# Update velocity for move_and_slide()
 	velocity = updated_velocity
@@ -65,6 +71,8 @@ func _rollback_tick(delta: float, _tick: int, _is_fresh: bool) -> void:
 	velocity /= NetworkTime.physics_factor
 	if is_on_boat:
 		velocity -= boat_vel
+	
+	position.z = round_to_dec(position.z, 3)
 	
 	# Force the colliders to catch up
 	_force_update_physics_transform()

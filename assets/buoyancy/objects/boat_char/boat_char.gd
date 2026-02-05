@@ -12,14 +12,14 @@ func _force_update_physics_transform():
 func _rollback_tick(_delta: float, _tick: int, _is_fresh: bool) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = player_input.input_dir
-	
-	if not is_zero_approx(input_dir.y):
-		curr_speed += -input_dir.y
-	elif curr_speed >= -0.1 and curr_speed <= 0.1:
-		curr_speed = 0
-	else:
-		curr_speed -= signf(curr_speed) * 0.1
-	curr_speed = clamp(curr_speed, -10.0, 10.0)
+	curr_speed = 10.0 if not is_zero_approx(input_dir.y) else 0.0
+	#if not is_zero_approx(input_dir.y):
+		#curr_speed += -input_dir.y
+	#elif curr_speed >= -0.1 and curr_speed <= 0.1:
+		#curr_speed = 0
+	#else:
+		#curr_speed -= signf(curr_speed) * 0.1
+	#curr_speed = clamp(curr_speed, -10.0, 10.0)
 	
 	velocity = transform.basis.z.normalized() * curr_speed
 	velocity *= NetworkTime.physics_factor

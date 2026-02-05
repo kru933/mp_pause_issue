@@ -115,6 +115,7 @@ interact={
 [netfox]
 
 rollback/history_limit=512
+rollback/display_offset=3
 
 [physics]
 

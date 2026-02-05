@@ -11,7 +11,7 @@ const JUMP_VELOCITY = 4.5
 var is_on_boat := false
 
 func _force_update_is_on_floor():
-	var old_velocity = velocity
+	var old_velocity : Vector3 = velocity
 	velocity = Vector3.ZERO
 	move_and_slide()
 	velocity = old_velocity
@@ -25,18 +25,18 @@ func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
 func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
-	if multiplayer.is_server():
-		print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.z, boat.velocity.z])
+	#if multiplayer.is_server():
+		#print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.z, boat.velocity.z])
 	
 	_force_update_is_on_floor()
 	
 	is_on_boat = $Area3D.has_overlapping_areas()
 	
 	var updated_velocity := velocity
-	var boat_vel = boat.velocity
 	
 	# Gravity
-	updated_velocity += global_transform.basis.y * -9.8 * delta
+	if not is_on_floor():
+		updated_velocity += global_transform.basis.y * -9.8 * delta
 	
 	# Camera rotation
 	rotate_object_local(Vector3.UP, player_input.look_angle.x)
@@ -53,11 +53,12 @@ func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
 		curr_speed = RUN_SPEED
 	
 	# Get the input direction and handle the movement/deceleration.
-	#var input_dir : Vector2 = player_input.input_dir
-	#updated_velocity = update_velocity_in_basis(transform.basis.x.normalized(), input_dir.x * curr_speed, updated_velocity)
-	#updated_velocity = update_velocity_in_basis(transform.basis.z.normalized(), input_dir.y * curr_speed, updated_velocity)
+	var input_dir : Vector2 = player_input.input_dir
+	updated_velocity = update_velocity_in_basis(transform.basis.x.normalized(), input_dir.x * curr_speed, updated_velocity)
+	updated_velocity = update_velocity_in_basis(transform.basis.z.normalized(), input_dir.y * curr_speed, updated_velocity)
 	
 	# Update velocity for move_and_slide()
+	var boat_vel = boat.velocity
 	velocity = updated_velocity
 	
 	# Add boat velocity
@@ -72,7 +73,11 @@ func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
 	if is_on_boat:
 		velocity -= boat_vel
 	
-	position.z = round_to_dec(position.z, 3)
+	#if multiplayer.is_server():
+		#print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.y, velocity.y])
+	
+	
+	#position.z = round_to_dec(position.z, 3)
 	
 	# Force the colliders to catch up
 	_force_update_physics_transform()

@@ -26,6 +26,8 @@ func _input(event: InputEvent) -> void:
 		mouse_rotation.x += event.relative.y * 0.005
 
 func _gather()->void:
+	if multiplayer.is_server():
+		print("gather")
 	if not is_setup:
 		is_setup = true
 		camera_3d.current = true

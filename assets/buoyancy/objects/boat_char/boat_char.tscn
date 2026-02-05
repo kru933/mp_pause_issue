@@ -69,7 +69,6 @@ size = Vector3(4.927124, 8.36676, 10.12085)
 [node name="BoatChar" type="CharacterBody3D" unique_id=1254369472 groups=["FakeBoat"]]
 collision_layer = 4
 collision_mask = 5
-motion_mode = 1
 script = ExtResource("1_tem6w")
 
 [node name="Input" type="Node" parent="." unique_id=2074306377]
@@ -81,19 +80,27 @@ script = ExtResource("2_b2dw2")
 shape = SubResource("ConvexPolygonShape3D_guvsh")
 
 [node name="ImportedColl1" type="CollisionShape3D" parent="." unique_id=1497098519]
+visible = false
 shape = SubResource("ConvexPolygonShape3D_dvful")
+disabled = true
 
 [node name="ImportedColl2" type="CollisionShape3D" parent="." unique_id=1782876874]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.521051, 0.8374367, 0.010124702)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_ysqh8")
+disabled = true
 
 [node name="ImportedColl3" type="CollisionShape3D" parent="." unique_id=2083340145]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.556856, 0.8374367, 0.010124702)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_svlxm")
+disabled = true
 
 [node name="ImportedColl4" type="CollisionShape3D" parent="." unique_id=865588041]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.3466164, 0.8374367, -4.8740315)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_yc2u2")
+disabled = true
 
 [node name="ImportedColl5" type="CollisionShape3D" parent="." unique_id=720871952]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.018828034, 1.3963856, 4.886673)
@@ -101,23 +108,33 @@ shape = SubResource("ConvexPolygonShape3D_tdd12")
 
 [node name="ImportedColl6" type="CollisionShape3D" parent="." unique_id=140324060]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1413859, 1.9957564, -1.3298779)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_xqtka")
+disabled = true
 
 [node name="ImportedColl7" type="CollisionShape3D" parent="." unique_id=860455550]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.0021392158, 2.4147863, 0.9171131)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_rivdv")
+disabled = true
 
 [node name="ImportedColl8" type="CollisionShape3D" parent="." unique_id=1168082072]
 transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, 0.95995736, 2.4147863, 0.004356146)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_1ac70")
+disabled = true
 
 [node name="ImportedColl9" type="CollisionShape3D" parent="." unique_id=1019043411]
 transform = Transform3D(-1, 0, -3.2584137e-07, 0, 1, 0, 3.2584137e-07, 0, -1, -0.93362665, 2.4147863, 0.004356146)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_vlfkv")
+disabled = true
 
 [node name="ImportedColl10" type="CollisionShape3D" parent="." unique_id=1177950700]
 transform = Transform3D(3.5762787e-07, 0.99999994, -4.3711356e-08, 0.99999994, -3.5762787e-07, 4.371137e-08, 4.3711356e-08, -4.371137e-08, -1, -0.93362665, 4.4349885, -0.08058557)
+visible = false
 shape = SubResource("ConvexPolygonShape3D_pa7ji")
+disabled = true
 
 [node name="ImportedColl11" type="CollisionShape3D" parent="." unique_id=1795270097]
 transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 1.9278347, 1.0978119, 4.886673)
@@ -154,14 +171,15 @@ shape = SubResource("ConvexPolygonShape3D_tuqyq")
 [node name="RollbackSynchronizer" type="Node" parent="." unique_id=1953846113 node_paths=PackedStringArray("root")]
 script = ExtResource("5_il562")
 root = NodePath("..")
-state_properties = Array[String]([":transform"])
+enable_prediction = true
+state_properties = Array[String]([":global_transform"])
 input_properties = Array[String](["Input:input_dir"])
 metadata/_custom_type_script = "uid://d350u8evihs1u"
 
 [node name="TickInterpolator" type="Node" parent="." unique_id=1287966587 node_paths=PackedStringArray("root")]
 script = ExtResource("6_dsfoj")
 root = NodePath("..")
-properties = Array[String]([":transform"])
+properties = Array[String]([":global_transform", ":velocity"])
 metadata/_custom_type_script = "uid://dour8fehaaugp"
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1996473871]
@@ -170,4 +188,5 @@ collision_mask = 32
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1761242135]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0569458, 3.6833801, 0.09509277)
+visible = false
 shape = SubResource("BoxShape3D_b2dw2")

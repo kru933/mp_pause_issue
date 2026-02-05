@@ -9,6 +9,15 @@ const JUMP_VELOCITY = 4.5
 @onready var boat = get_tree().get_first_node_in_group("FakeBoat")
 
 var is_on_boat := false
+var boat_vel := Vector3()
+
+func _ready()->void:
+	if is_multiplayer_authority():
+		NetworkTime.before_tick_loop.connect(_gather)
+
+func _gather()->void:
+	boat_vel = boat.velocity
+	is_on_boat = true
 
 func _force_update_is_on_floor():
 	var old_velocity = velocity
@@ -22,15 +31,17 @@ func _force_update_physics_transform():
 	PhysicsServer3D.body_set_mode(get_rid(), PhysicsServer3D.BODY_MODE_KINEMATIC)
 
 func _rollback_tick(delta: float, _tick: int, _is_fresh: bool) -> void:
+	if multiplayer.is_server():
+		print(name)
+	
 	_force_update_is_on_floor()
 	
-	is_on_boat = $Area3D.has_overlapping_areas()
 	
 	var updated_velocity := velocity
-	var boat_vel = boat.velocity
 	
 	# Gravity
-	updated_velocity += global_transform.basis.y * -9.8 * delta
+	#if not is_on_floor():
+		#updated_velocity += global_transform.basis.y * -9.8 * delta
 	
 	# Camera rotation
 	rotate_object_local(Vector3.UP, player_input.look_angle.x)
@@ -65,6 +76,9 @@ func _rollback_tick(delta: float, _tick: int, _is_fresh: bool) -> void:
 	velocity /= NetworkTime.physics_factor
 	if is_on_boat:
 		velocity -= boat_vel
+	
+	#if multiplayer.is_server() and player_input.get_multiplayer_authority() != 1:
+		#prints(is_on_boat, velocity, boat_vel, global_position)
 	
 	# Force the colliders to catch up
 	_force_update_physics_transform()

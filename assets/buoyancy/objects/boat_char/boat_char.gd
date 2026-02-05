@@ -10,6 +10,9 @@ func _force_update_physics_transform():
 	PhysicsServer3D.body_set_mode(get_rid(), PhysicsServer3D.BODY_MODE_KINEMATIC)
 
 func _rollback_tick(_delta: float, _tick: int, _is_fresh: bool) -> void:
+	if multiplayer.is_server():
+		print(name)
+	
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = player_input.input_dir
 	
@@ -25,6 +28,9 @@ func _rollback_tick(_delta: float, _tick: int, _is_fresh: bool) -> void:
 	velocity *= NetworkTime.physics_factor
 	move_and_slide()
 	velocity /= NetworkTime.physics_factor
+	
+	if multiplayer.is_server() and player_input.get_multiplayer_authority() != 1:
+		pass
 	
 	# Get colliders to catch up
 	_force_update_physics_transform()

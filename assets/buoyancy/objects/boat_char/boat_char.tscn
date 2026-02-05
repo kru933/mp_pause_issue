@@ -26,7 +26,8 @@ script = ExtResource("2_b2dw2")
 [node name="RollbackSynchronizer" type="Node" parent="." unique_id=1953846113 node_paths=PackedStringArray("root")]
 script = ExtResource("5_il562")
 root = NodePath("..")
-state_properties = Array[String]([":transform", ":curr_speed"])
+enable_prediction = true
+state_properties = Array[String]([":transform", ":curr_speed", ":velocity"])
 input_properties = Array[String](["Input:input_dir"])
 metadata/_custom_type_script = "uid://d350u8evihs1u"
 

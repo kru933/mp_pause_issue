@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://bdai8wmorwus8"]
 
 [ext_resource type="Script" uid="uid://dumlws1mjr8fb" path="res://assets/player/player.gd" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://3lbngqcexe0l" path="res://addons/netfox/state-synchronizer.gd" id="2_ouxva"]
 [ext_resource type="Script" uid="uid://p50x3cf1fh1h" path="res://assets/player/player_input.gd" id="3_v2miy"]
-[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="4_d5dr7"]
 [ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="5_toylo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
@@ -37,18 +37,17 @@ shape = SubResource("CapsuleShape3D_lquwl")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91257024, 0)
 mesh = SubResource("CapsuleMesh_oul6g")
 
-[node name="RollbackSynchronizer" type="Node" parent="." unique_id=520637209 node_paths=PackedStringArray("root")]
-script = ExtResource("4_d5dr7")
+[node name="StateSynchronizer" type="Node" parent="." unique_id=525479574 node_paths=PackedStringArray("root")]
+script = ExtResource("2_ouxva")
 root = NodePath("..")
-enable_prediction = true
-state_properties = Array[String]([":transform", "Camera3D:transform", ":velocity"])
-input_properties = Array[String](["PlayerInput:input_dir", "PlayerInput:look_angle", "PlayerInput:jump_pressed", "PlayerInput:run_pressed"])
-metadata/_custom_type_script = "uid://d350u8evihs1u"
+properties = Array[String]([":transform", "Camera3D:transform"])
+metadata/_custom_type_script = "uid://3lbngqcexe0l"
 
 [node name="TickInterpolator" type="Node" parent="." unique_id=125828885 node_paths=PackedStringArray("root")]
 script = ExtResource("5_toylo")
 root = NodePath("..")
-properties = Array[String]([":transform", "Camera3D:transform"])
+enabled = false
+properties = Array[String](["Camera3D:transform", ":transform"])
 metadata/_custom_type_script = "uid://dour8fehaaugp"
 
 [node name="PlayerInput" type="Node" parent="." unique_id=1269226287]

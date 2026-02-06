@@ -24,16 +24,17 @@ func _spawn_player(id : int)->void:
 	avatars[id] = avatar
 	avatar.name = "Player_%s" % id
 	# Add to tree
-	if 0:
+	if 1:
 		boat.add_child(avatar)
 	else:
 		spawn_container.add_child(avatar)
 	# Setup after adding
 	avatar.global_transform = _get_spawn_point(true, id == 1)
 	# The Player is owned by the server but the PlayerInput is owned by the client
-	avatar.set_multiplayer_authority(1)
-	avatar.player_input.set_multiplayer_authority(id)
-	avatar.get_node("RollbackSynchronizer").process_settings()
+	avatar.set_multiplayer_authority(id)
+	avatar.update_auth()
+	#avatar.player_input.set_multiplayer_authority(id)
+	#avatar.get_node("RollbackSynchronizer").process_settings()
 
 func _spawn_boat(id : int)->void:
 	boat = boat_scene.instantiate()

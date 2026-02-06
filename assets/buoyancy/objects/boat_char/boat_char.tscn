@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c12u5nrwhfssg" path="res://assets/buoyancy/objects/boat_char/boat_char.gd" id="1_tem6w"]
 [ext_resource type="Script" uid="uid://bq43vjeknk3cu" path="res://assets/buoyancy/objects/boat_char/boat_input_char.gd" id="2_b2dw2"]
+[ext_resource type="Script" uid="uid://3lbngqcexe0l" path="res://addons/netfox/state-synchronizer.gd" id="4_2cjg3"]
 [ext_resource type="PackedScene" uid="uid://bxca4bjo3mqfo" path="res://art/models/TugBoat.gltf" id="4_sjvp8"]
-[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="5_il562"]
 [ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="6_dsfoj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b2dw2"]
@@ -23,13 +23,23 @@ script = ExtResource("2_b2dw2")
 
 [node name="TugBoat" parent="." unique_id=1716188048 instance=ExtResource("4_sjvp8")]
 
-[node name="RollbackSynchronizer" type="Node" parent="." unique_id=1953846113 node_paths=PackedStringArray("root")]
-script = ExtResource("5_il562")
+[node name="Cabin" parent="TugBoat" index="1" unique_id=1557401098]
+visible = false
+
+[node name="Exhuast" parent="TugBoat" index="2" unique_id=1024021002]
+visible = false
+
+[node name="CabinConsole" parent="TugBoat" index="4" unique_id=953745861]
+visible = false
+
+[node name="SteeringWheel" parent="TugBoat" index="5" unique_id=1519741981]
+visible = false
+
+[node name="StateSynchronizer" type="Node" parent="." unique_id=270854342 node_paths=PackedStringArray("root")]
+script = ExtResource("4_2cjg3")
 root = NodePath("..")
-enable_prediction = true
-state_properties = Array[String]([":transform", ":curr_speed", ":velocity"])
-input_properties = Array[String](["Input:input_dir"])
-metadata/_custom_type_script = "uid://d350u8evihs1u"
+properties = Array[String]([":transform", ":velocity"])
+metadata/_custom_type_script = "uid://3lbngqcexe0l"
 
 [node name="TickInterpolator" type="Node" parent="." unique_id=1287966587 node_paths=PackedStringArray("root")]
 script = ExtResource("6_dsfoj")
@@ -48,3 +58,5 @@ shape = SubResource("BoxShape3D_b2dw2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2143873983]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.027404785, 0.28833008, 0.057434082)
 shape = SubResource("BoxShape3D_2cjg3")
+
+[editable path="TugBoat"]

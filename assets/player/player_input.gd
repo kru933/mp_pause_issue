@@ -1,4 +1,4 @@
-extends BaseNetInput
+extends Node
 
 @onready var camera_3d: Camera3D = %Camera3D
 
@@ -10,6 +10,10 @@ var is_setup := false
 
 var mouse_rotation: Vector2 = Vector2.ZERO
 var look_angle: Vector2 = Vector2.ZERO
+
+func update()->void:
+	if is_multiplayer_authority():
+		NetworkTime.before_tick_loop.connect(_gather)
 
 func _input(event: InputEvent) -> void:
 	if not is_multiplayer_authority():

@@ -9,6 +9,15 @@ const JUMP_VELOCITY = 4.5
 @onready var boat = get_tree().get_first_node_in_group("FakeBoat")
 
 var is_on_boat := false
+var prev_global_pos := Vector3()
+var prev_top_level := false
+var set_pos := Transform3D()
+
+func update_auth()->void:
+	NetworkTime.on_tick.connect(_tick)
+	if is_multiplayer_authority():
+		player_input.update()
+		$StateSynchronizer.process_settings()
 
 func _force_update_is_on_floor():
 	var old_velocity : Vector3 = velocity
@@ -24,15 +33,44 @@ func _force_update_physics_transform():
 func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
-func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
-	#if multiplayer.is_server():
-		#print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.z, boat.velocity.z])
+@rpc("authority", "call_local", "reliable")
+func update_top_level(new_val):
+	top_level = new_val
+	#transform = set_pos
+	#$TickInterpolator.teleport()
+
+func _tick(delta: float, tick: int) -> void:
+	
+	if not is_multiplayer_authority() and multiplayer.get_unique_id() == 1:
+		prints(top_level, position)
+	
+	#transform = set_pos
+	
+	#if prev_top_level != top_level:
+		#transform = set_pos
+		#$TickInterpolator.teleport()
+	#prev_top_level = top_level
+	
+	# TODO: this is on the right path, my brain isn't working
+	if not is_multiplayer_authority():
+		return
 	
 	_force_update_is_on_floor()
 	
-	is_on_boat = $Area3D.has_overlapping_areas()
-	
 	var updated_velocity := velocity
+	var top_lvl_change := false
+	
+	is_on_boat = $Area3D.has_overlapping_areas()
+	if top_level != not is_on_boat:
+		#set_pos = global_transform
+		#set_deferred("top_level", not is_on_boat)
+		#update_top_level.rpc(not is_on_boat)
+		top_level = not is_on_boat
+		top_lvl_change = true
+		#$TickInterpolator.teleport()
+		#transform = gt
+		#if is_multiplayer_authority():
+			#prints("top level", global_position)
 	
 	# Gravity
 	if not is_on_floor():
@@ -62,25 +100,33 @@ func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
 	velocity = updated_velocity
 	
 	# Add boat velocity
-	if is_on_boat:
-		velocity += boat_vel
+	#if is_on_boat:
+		#velocity += boat_vel
 	
-	velocity *= NetworkTime.physics_factor
+	#velocity *= NetworkTime.physics_factor
 	move_and_slide()
 	
 	# Remove boat/rollback from velocity
-	velocity /= NetworkTime.physics_factor
-	if is_on_boat:
-		velocity -= boat_vel
+	#velocity /= NetworkTime.physics_factor
+	#if is_on_boat:
+		#velocity -= boat_vel
 	
 	#if multiplayer.is_server():
 		#print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.y, velocity.y])
 	
-	
-	#position.z = round_to_dec(position.z, 3)
-	
 	# Force the colliders to catch up
 	_force_update_physics_transform()
+	prev_global_pos = global_position
+	set_pos = transform
+	
+	#if is_on_boat:
+		#set_pos = transform
+	#else:
+		#set_pos = global_transform
+
+#func _process(_delta):
+	#if not is_multiplayer_authority() and multiplayer.get_unique_id() == 1:
+		#prints(top_level, position)
 
 # This exists because the main project has weird gravity
 func update_velocity_in_basis(basis_dir : Vector3, vel : float, curr_vel : Vector3)->Vector3:

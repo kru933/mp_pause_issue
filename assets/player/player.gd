@@ -8,7 +8,14 @@ const JUMP_VELOCITY = 4.5
 @onready var player_input: Node = $PlayerInput
 @onready var boat = get_tree().get_first_node_in_group("FakeBoat")
 
-var is_on_boat := false
+var is_on_boat := true
+var boat_pos := Vector3()
+var off_boat_pos := Vector3()
+var first_tick := true
+
+func _ready()->void:
+	if not is_multiplayer_authority():
+		NetworkTime.after_tick_loop.connect(_tick)
 
 func _force_update_is_on_floor():
 	var old_velocity : Vector3 = velocity
@@ -24,9 +31,22 @@ func _force_update_physics_transform():
 func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
+func _tick() -> void:
+	if is_on_boat:
+		position = boat_pos
+	else:
+		global_position = off_boat_pos
+	
+	# Force the colliders to catch up
+	_force_update_physics_transform()
+
 func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
-	#if multiplayer.is_server():
-		#print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.z, boat.velocity.z])
+	if not first_tick:
+		if is_on_boat:
+			position = boat_pos
+		else:
+			global_position = off_boat_pos
+	first_tick = false
 	
 	_force_update_is_on_floor()
 	
@@ -58,29 +78,19 @@ func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
 	updated_velocity = update_velocity_in_basis(transform.basis.z.normalized(), input_dir.y * curr_speed, updated_velocity)
 	
 	# Update velocity for move_and_slide()
-	var boat_vel = boat.velocity
 	velocity = updated_velocity
-	
-	# Add boat velocity
-	if is_on_boat:
-		velocity += boat_vel
 	
 	velocity *= NetworkTime.physics_factor
 	move_and_slide()
 	
-	# Remove boat/rollback from velocity
+	# Remove rollback from velocity
 	velocity /= NetworkTime.physics_factor
-	if is_on_boat:
-		velocity -= boat_vel
-	
-	#if multiplayer.is_server():
-		#print("%d:\t%d\t:%f:\t%f" % [1 if player_input.get_multiplayer_authority() == 1 else 0, tick, position.y, velocity.y])
-	
-	
-	#position.z = round_to_dec(position.z, 3)
 	
 	# Force the colliders to catch up
 	_force_update_physics_transform()
+	
+	boat_pos = position
+	off_boat_pos = global_position
 
 # This exists because the main project has weird gravity
 func update_velocity_in_basis(basis_dir : Vector3, vel : float, curr_vel : Vector3)->Vector3:

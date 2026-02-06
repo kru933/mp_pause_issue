@@ -23,6 +23,18 @@ script = ExtResource("2_b2dw2")
 
 [node name="TugBoat" parent="." unique_id=1716188048 instance=ExtResource("4_sjvp8")]
 
+[node name="Cabin" parent="TugBoat" index="1" unique_id=64464595]
+visible = false
+
+[node name="Exhuast" parent="TugBoat" index="2" unique_id=1881457231]
+visible = false
+
+[node name="CabinConsole" parent="TugBoat" index="4" unique_id=1340266989]
+visible = false
+
+[node name="SteeringWheel" parent="TugBoat" index="5" unique_id=1024797746]
+visible = false
+
 [node name="RollbackSynchronizer" type="Node" parent="." unique_id=1953846113 node_paths=PackedStringArray("root")]
 script = ExtResource("5_il562")
 root = NodePath("..")
@@ -48,3 +60,5 @@ shape = SubResource("BoxShape3D_b2dw2")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2143873983]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.027404785, 0.28833008, 0.057434082)
 shape = SubResource("BoxShape3D_2cjg3")
+
+[editable path="TugBoat"]

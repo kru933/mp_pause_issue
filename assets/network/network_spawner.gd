@@ -24,7 +24,7 @@ func _spawn_player(id : int)->void:
 	avatars[id] = avatar
 	avatar.name = "Player_%s" % id
 	# Add to tree
-	if 0:
+	if 1:
 		boat.add_child(avatar)
 	else:
 		spawn_container.add_child(avatar)

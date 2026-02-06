@@ -117,11 +117,12 @@ interact={
 [netfox]
 
 rollback/history_limit=512
-rollback/input_delay=1
-rollback/display_offset=3
 autoconnect/enabled=true
 autoconnect/port=65123
 autoconnect/simulated_latency_ms=200
+autoconnect/simulated_packet_loss_chance=0.1
+rollback/display_offset=4
+rollback/input_delay=1
 
 [physics]
 

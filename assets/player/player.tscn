@@ -40,15 +40,14 @@ mesh = SubResource("CapsuleMesh_oul6g")
 [node name="RollbackSynchronizer" type="Node" parent="." unique_id=520637209 node_paths=PackedStringArray("root")]
 script = ExtResource("4_d5dr7")
 root = NodePath("..")
-enable_prediction = true
-state_properties = Array[String]([":transform", "Camera3D:transform", ":velocity"])
+state_properties = Array[String]([":boat_pos", "Camera3D:quaternion", ":velocity", ":off_boat_pos", ":is_on_boat", ":quaternion"])
 input_properties = Array[String](["PlayerInput:input_dir", "PlayerInput:look_angle", "PlayerInput:jump_pressed", "PlayerInput:run_pressed"])
 metadata/_custom_type_script = "uid://d350u8evihs1u"
 
 [node name="TickInterpolator" type="Node" parent="." unique_id=125828885 node_paths=PackedStringArray("root")]
 script = ExtResource("5_toylo")
 root = NodePath("..")
-properties = Array[String]([":transform", "Camera3D:transform"])
+properties = Array[String]([":boat_pos", ":off_boat_pos", "Camera3D:quaternion", ":quaternion"])
 metadata/_custom_type_script = "uid://dour8fehaaugp"
 
 [node name="PlayerInput" type="Node" parent="." unique_id=1269226287]

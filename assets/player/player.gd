@@ -12,6 +12,8 @@ var is_on_boat := false
 var boat_pos := Vector3()
 var off_boat_pos := Vector3()
 var first_tick := true
+var trans_time := 0.0
+var was_on_boat := false
 
 func update_auth()->void:
 	NetworkTime.on_tick.connect(_tick)
@@ -34,12 +36,23 @@ func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
 func _tick(delta: float, tick: int) -> void:
-	# Use is_on_boat to set the position or global_position
 	if not first_tick:
+		# If moving off the boat, lerp the player between the global_pos they think they are at and where we think they are at
+		# do this for X seconds?
+		
 		if is_on_boat:
 			position = boat_pos
 		else:
-			global_position = off_boat_pos
+			if is_on_boat != was_on_boat:
+				trans_time = Time.get_ticks_msec() + 1000.0
+			
+			if is_multiplayer_authority() or trans_time < Time.get_ticks_msec():
+				global_position = off_boat_pos
+			else:
+				global_position = lerp(global_position, off_boat_pos, delta * 1.0)
+				print(multiplayer.get_unique_id())
+		was_on_boat = is_on_boat
+	
 	first_tick = false
 	
 	if not is_multiplayer_authority():

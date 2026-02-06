@@ -23,16 +23,16 @@ script = ExtResource("2_b2dw2")
 
 [node name="TugBoat" parent="." unique_id=1716188048 instance=ExtResource("4_sjvp8")]
 
-[node name="Cabin" parent="TugBoat" index="1" unique_id=1557401098]
+[node name="Cabin" parent="TugBoat" index="1" unique_id=131382411]
 visible = false
 
-[node name="Exhuast" parent="TugBoat" index="2" unique_id=1024021002]
+[node name="Exhuast" parent="TugBoat" index="2" unique_id=1046098820]
 visible = false
 
-[node name="CabinConsole" parent="TugBoat" index="4" unique_id=953745861]
+[node name="CabinConsole" parent="TugBoat" index="4" unique_id=2138139938]
 visible = false
 
-[node name="SteeringWheel" parent="TugBoat" index="5" unique_id=1519741981]
+[node name="SteeringWheel" parent="TugBoat" index="5" unique_id=1639580938]
 visible = false
 
 [node name="StateSynchronizer" type="Node" parent="." unique_id=270854342 node_paths=PackedStringArray("root")]

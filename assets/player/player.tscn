@@ -40,14 +40,13 @@ mesh = SubResource("CapsuleMesh_oul6g")
 [node name="StateSynchronizer" type="Node" parent="." unique_id=525479574 node_paths=PackedStringArray("root")]
 script = ExtResource("2_ouxva")
 root = NodePath("..")
-properties = Array[String]([":transform", "Camera3D:transform"])
+properties = Array[String]([":boat_pos", ":off_boat_pos", ":is_on_boat", ":quaternion", "Camera3D:quaternion"])
 metadata/_custom_type_script = "uid://3lbngqcexe0l"
 
 [node name="TickInterpolator" type="Node" parent="." unique_id=125828885 node_paths=PackedStringArray("root")]
 script = ExtResource("5_toylo")
 root = NodePath("..")
-enabled = false
-properties = Array[String](["Camera3D:transform", ":transform"])
+properties = Array[String]([":boat_pos", ":off_boat_pos", ":quaternion", "Camera3D:quaternion"])
 metadata/_custom_type_script = "uid://dour8fehaaugp"
 
 [node name="PlayerInput" type="Node" parent="." unique_id=1269226287]

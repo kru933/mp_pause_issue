@@ -96,6 +96,7 @@ func _is_proxy_required() -> bool:
 
 func _try_and_host() -> Error:
 	var status = _enet_peer.create_server(server_port)
+	prints("test:", status)
 	if status == OK:
 		if _is_proxy_required():
 			_start_udp_proxy()
@@ -104,6 +105,7 @@ func _try_and_host() -> Error:
 	return status
 
 func _try_and_join() -> Error:
+	print("joining")
 	var connect_port = server_port
 	if _is_proxy_required():
 		connect_port = _udp_proxy_port

@@ -49,7 +49,6 @@ func _pressed_client_button()->void:
 	
 	get_tree().get_multiplayer().multiplayer_peer = peer
 	
-	
 	await NetworkCommon.async_condition(
 		func():
 			return peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTING

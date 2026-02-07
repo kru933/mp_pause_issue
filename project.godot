@@ -119,9 +119,9 @@ interact={
 rollback/history_limit=512
 autoconnect/enabled=true
 autoconnect/port=65123
-autoconnect/simulated_latency_ms=100
 autoconnect/simulated_packet_loss_chance=0.1
 rollback/enabled=false
+autoconnect/simulated_latency_ms=100
 
 [physics]
 

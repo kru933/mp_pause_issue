@@ -4,6 +4,8 @@ const SPEED = 5.0
 const RUN_SPEED = 7.5
 const JUMP_VELOCITY = 4.5
 
+@export var lerp_curve : Curve
+
 @onready var camera_3d = %Camera3D
 @onready var player_input: Node = $PlayerInput
 @onready var boat = get_tree().get_first_node_in_group("FakeBoat")
@@ -12,6 +14,7 @@ var is_on_boat := true
 var boat_pos := Vector3()
 var off_boat_pos := Vector3()
 var first_tick := true
+var was_on_boat := true
 
 func updated_auth()->void:
 	if not is_multiplayer_authority():
@@ -41,10 +44,18 @@ func _tick(delta: float, tick: int) -> void:
 		if is_on_boat:
 			position = boat_pos
 		else:
-			# TODO: if not the auth, check to see how far off this is from what we currently think that player global pos is
-			# lerp from where we think they are, to where they actually are (increase speed based on distance)
-			global_position = off_boat_pos
+			# if not the auth and the client pos is further than i think it is, lerp to that pos
+			if not is_multiplayer_authority():
+				var dist_to_reality := global_position.distance_to(off_boat_pos)
+				if dist_to_reality > 1.0:
+					print(dist_to_reality)
+					global_position = global_position.lerp(off_boat_pos, lerp_curve.sample(dist_to_reality))
+				else:
+					global_position = off_boat_pos
+			else:
+				global_position = off_boat_pos
 	first_tick = false
+	was_on_boat = is_on_boat
 	
 	if not is_multiplayer_authority():
 		# Force the colliders to catch up

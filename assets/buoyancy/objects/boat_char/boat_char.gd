@@ -22,7 +22,7 @@ func _tick(_delta: float, _tick: int) -> void:
 		curr_speed = 0
 	else:
 		curr_speed -= signf(curr_speed) * 0.1
-	curr_speed = clamp(curr_speed, -10.0, 30.0)
+	curr_speed = clamp(curr_speed, -10.0, 10.0)
 	
 	velocity = transform.basis.z.normalized() * curr_speed
 	velocity *= NetworkTime.physics_factor

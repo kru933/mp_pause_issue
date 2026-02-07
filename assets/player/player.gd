@@ -15,7 +15,9 @@ var first_tick := true
 
 func updated_auth()->void:
 	if not is_multiplayer_authority():
-		$CollisionShape3D.disabled = true
+		set_collision_layer_value(2, false)
+		set_collision_layer_value(4, true)
+		set_collision_mask_value(2, false)
 
 func _ready()->void:
 	NetworkTime.on_tick.connect(_tick)
@@ -39,6 +41,8 @@ func _tick(delta: float, tick: int) -> void:
 		if is_on_boat:
 			position = boat_pos
 		else:
+			# TODO: if not the auth, check to see how far off this is from what we currently think that player global pos is
+			# lerp from where we think they are, to where they actually are (increase speed based on distance)
 			global_position = off_boat_pos
 	first_tick = false
 	

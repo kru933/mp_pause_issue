@@ -7,7 +7,7 @@
 [ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="6_dsfoj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b2dw2"]
-size = Vector3(4.927124, 2.1478424, 9.90741)
+size = Vector3(4.927124, 4.0998, 9.35936)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2cjg3"]
 size = Vector3(5.246216, 1.5766602, 10.340454)
@@ -59,7 +59,7 @@ collision_layer = 32
 collision_mask = 32
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1761242135]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0569458, 0.5739212, -0.021209717)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0569458, 1.5499, -0.29523468)
 shape = SubResource("BoxShape3D_b2dw2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2143873983]

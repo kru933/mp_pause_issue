@@ -13,9 +13,12 @@ var boat_pos := Vector3()
 var off_boat_pos := Vector3()
 var first_tick := true
 
-func _ready()->void:
+func updated_auth()->void:
 	if not is_multiplayer_authority():
-		NetworkTime.after_tick_loop.connect(_tick)
+		$CollisionShape3D.disabled = true
+
+func _ready()->void:
+	NetworkTime.on_tick.connect(_tick)
 
 func _force_update_is_on_floor():
 	var old_velocity : Vector3 = velocity
@@ -31,22 +34,18 @@ func _force_update_physics_transform():
 func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
-func _tick() -> void:
-	if is_on_boat:
-		position = boat_pos
-	else:
-		global_position = off_boat_pos
-	
-	# Force the colliders to catch up
-	_force_update_physics_transform()
-
-func _rollback_tick(delta: float, tick: int, _is_fresh: bool) -> void:
+func _tick(delta: float, tick: int) -> void:
 	if not first_tick:
 		if is_on_boat:
 			position = boat_pos
 		else:
 			global_position = off_boat_pos
 	first_tick = false
+	
+	if not is_multiplayer_authority():
+		# Force the colliders to catch up
+		_force_update_physics_transform()
+		return
 	
 	_force_update_is_on_floor()
 	

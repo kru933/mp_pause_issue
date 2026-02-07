@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dumlws1mjr8fb" path="res://assets/player/player.gd" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://p50x3cf1fh1h" path="res://assets/player/player_input.gd" id="3_v2miy"]
-[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="4_d5dr7"]
+[ext_resource type="Script" uid="uid://3lbngqcexe0l" path="res://addons/netfox/state-synchronizer.gd" id="5_d5dr7"]
 [ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="5_toylo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lquwl"]
@@ -29,6 +29,10 @@ unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6452577, 0)
 cull_mask = 1048573
 
+[node name="CSGBox3D" type="CSGBox3D" parent="Camera3D" unique_id=644980187]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.04234463, -0.18420482, -0.270166)
+size = Vector3(0.7421875, 0.49169922, 0.44677734)
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2129488034]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91257024, 0)
 shape = SubResource("CapsuleShape3D_lquwl")
@@ -36,13 +40,6 @@ shape = SubResource("CapsuleShape3D_lquwl")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=346908790]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91257024, 0)
 mesh = SubResource("CapsuleMesh_oul6g")
-
-[node name="RollbackSynchronizer" type="Node" parent="." unique_id=520637209 node_paths=PackedStringArray("root")]
-script = ExtResource("4_d5dr7")
-root = NodePath("..")
-state_properties = Array[String]([":boat_pos", "Camera3D:quaternion", ":velocity", ":off_boat_pos", ":is_on_boat", ":quaternion"])
-input_properties = Array[String](["PlayerInput:input_dir", "PlayerInput:look_angle", "PlayerInput:jump_pressed", "PlayerInput:run_pressed"])
-metadata/_custom_type_script = "uid://d350u8evihs1u"
 
 [node name="TickInterpolator" type="Node" parent="." unique_id=125828885 node_paths=PackedStringArray("root")]
 script = ExtResource("5_toylo")
@@ -53,6 +50,12 @@ metadata/_custom_type_script = "uid://dour8fehaaugp"
 [node name="PlayerInput" type="Node" parent="." unique_id=1269226287]
 script = ExtResource("3_v2miy")
 
+[node name="PlayerInput2" type="Node" parent="PlayerInput" unique_id=278997940 node_paths=PackedStringArray("root")]
+script = ExtResource("5_d5dr7")
+root = NodePath("..")
+properties = Array[String]([":jump_pressed", ":run_pressed", ":input_dir", ":look_angle"])
+metadata/_custom_type_script = "uid://3lbngqcexe0l"
+
 [node name="Area3D" type="Area3D" parent="." unique_id=1602984657]
 collision_layer = 32
 collision_mask = 32
@@ -60,3 +63,9 @@ collision_mask = 32
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=623146977]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.91257024, 0)
 shape = SubResource("CapsuleShape3D_lquwl")
+
+[node name="StateSynchronizer" type="Node" parent="." unique_id=1025116223 node_paths=PackedStringArray("root")]
+script = ExtResource("5_d5dr7")
+root = NodePath("..")
+properties = Array[String](["Camera3D:quaternion", ":quaternion", ":velocity", ":is_on_boat", ":boat_pos", ":off_boat_pos"])
+metadata/_custom_type_script = "uid://3lbngqcexe0l"

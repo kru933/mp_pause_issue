@@ -2,12 +2,12 @@
 
 [ext_resource type="Script" uid="uid://c12u5nrwhfssg" path="res://assets/buoyancy/objects/boat_char/boat_char.gd" id="1_tem6w"]
 [ext_resource type="Script" uid="uid://bq43vjeknk3cu" path="res://assets/buoyancy/objects/boat_char/boat_input_char.gd" id="2_b2dw2"]
+[ext_resource type="Script" uid="uid://3lbngqcexe0l" path="res://addons/netfox/state-synchronizer.gd" id="4_2cjg3"]
 [ext_resource type="PackedScene" uid="uid://bxca4bjo3mqfo" path="res://art/models/TugBoat.gltf" id="4_sjvp8"]
-[ext_resource type="Script" uid="uid://d350u8evihs1u" path="res://addons/netfox/rollback/rollback-synchronizer.gd" id="5_il562"]
 [ext_resource type="Script" uid="uid://dour8fehaaugp" path="res://addons/netfox/tick-interpolator.gd" id="6_dsfoj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b2dw2"]
-size = Vector3(4.927124, 8.36676, 10.12085)
+size = Vector3(4.927124, 2.1478424, 9.90741)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2cjg3"]
 size = Vector3(5.246216, 1.5766602, 10.340454)
@@ -20,6 +20,12 @@ script = ExtResource("1_tem6w")
 
 [node name="Input" type="Node" parent="." unique_id=2074306377]
 script = ExtResource("2_b2dw2")
+
+[node name="InputSync" type="Node" parent="Input" unique_id=2076027509 node_paths=PackedStringArray("root")]
+script = ExtResource("4_2cjg3")
+root = NodePath("..")
+properties = Array[String]([":input_dir"])
+metadata/_custom_type_script = "uid://3lbngqcexe0l"
 
 [node name="TugBoat" parent="." unique_id=1716188048 instance=ExtResource("4_sjvp8")]
 
@@ -35,15 +41,14 @@ visible = false
 [node name="SteeringWheel" parent="TugBoat" index="5" unique_id=1024797746]
 visible = false
 
-[node name="RollbackSynchronizer" type="Node" parent="." unique_id=1953846113 node_paths=PackedStringArray("root")]
-script = ExtResource("5_il562")
+[node name="StateSynchronizer" type="Node" parent="." unique_id=2050933720 node_paths=PackedStringArray("root")]
+script = ExtResource("4_2cjg3")
 root = NodePath("..")
-enable_prediction = true
-state_properties = Array[String]([":transform", ":curr_speed", ":velocity"])
-input_properties = Array[String](["Input:input_dir"])
-metadata/_custom_type_script = "uid://d350u8evihs1u"
+properties = Array[String]([":transform", ":velocity", ":curr_speed"])
+metadata/_custom_type_script = "uid://3lbngqcexe0l"
 
 [node name="TickInterpolator" type="Node" parent="." unique_id=1287966587 node_paths=PackedStringArray("root")]
+process_mode = 4
 script = ExtResource("6_dsfoj")
 root = NodePath("..")
 properties = Array[String]([":transform"])
@@ -54,7 +59,7 @@ collision_layer = 32
 collision_mask = 32
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1761242135]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0569458, 3.6833801, 0.09509277)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0569458, 0.5739212, -0.021209717)
 shape = SubResource("BoxShape3D_b2dw2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2143873983]

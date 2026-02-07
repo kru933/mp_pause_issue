@@ -31,9 +31,10 @@ func _spawn_player(id : int)->void:
 	# Setup after adding
 	avatar.global_transform = _get_spawn_point(true, id == 1)
 	# The Player is owned by the server but the PlayerInput is owned by the client
-	avatar.set_multiplayer_authority(1)
+	avatar.set_multiplayer_authority(id)
 	avatar.player_input.set_multiplayer_authority(id)
-	avatar.get_node("RollbackSynchronizer").process_settings()
+	avatar.player_input.get_node("PlayerInput2").process_settings()
+	avatar.updated_auth()
 
 func _spawn_boat(id : int)->void:
 	boat = boat_scene.instantiate()

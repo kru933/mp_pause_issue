@@ -4,19 +4,17 @@ class_name FakeBoat extends CharacterBody3D
 
 var curr_speed := 0.0
 
+func _ready()->void:
+	NetworkTime.on_tick.connect(_tick)
+
 func _force_update_physics_transform():
 	PhysicsServer3D.body_set_mode(get_rid(), PhysicsServer3D.BODY_MODE_STATIC)
 	PhysicsServer3D.body_set_state(get_rid(), PhysicsServer3D.BODY_STATE_TRANSFORM, transform)
 	PhysicsServer3D.body_set_mode(get_rid(), PhysicsServer3D.BODY_MODE_KINEMATIC)
 
-func _rollback_tick(_delta: float, tick: int, _is_fresh: bool) -> void:
-	#if multiplayer.is_server():
-		#print("%d:\t%f" % [tick, position.y])
-	
+func _tick(_delta: float, _tick: int) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	var input_dir = player_input.input_dir
-	
-	#curr_speed = 10.0 if not is_zero_approx(input_dir.y) else 0.0
 	
 	if not is_zero_approx(input_dir.y):
 		curr_speed += -input_dir.y
@@ -24,7 +22,7 @@ func _rollback_tick(_delta: float, tick: int, _is_fresh: bool) -> void:
 		curr_speed = 0
 	else:
 		curr_speed -= signf(curr_speed) * 0.1
-	curr_speed = clamp(curr_speed, -10.0, 10.0)
+	curr_speed = clamp(curr_speed, -10.0, 30.0)
 	
 	velocity = transform.basis.z.normalized() * curr_speed
 	velocity *= NetworkTime.physics_factor
@@ -33,13 +31,3 @@ func _rollback_tick(_delta: float, tick: int, _is_fresh: bool) -> void:
 	
 	# Get colliders to catch up
 	_force_update_physics_transform()
-
-func update_velocity_in_basis(basis_dir : Vector3, vel : float, curr_vel : Vector3)->Vector3:
-	var velocity_along_axis := basis_dir * curr_vel.dot(basis_dir)
-	
-	if is_zero_approx(vel):
-		curr_vel -= velocity_along_axis
-	else:
-		curr_vel -= velocity_along_axis - (basis_dir * vel)
-	
-	return curr_vel
